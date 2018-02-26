@@ -1,7 +1,8 @@
 from rest_framework import viewsets
 
 from project.api.models import Bucketlist, BucketlistItem
-from project.api.serializers import BucketlistSerializer, BucketlistItemSerializer
+from project.api.serializers import (
+    BucketlistSerializer, BucketlistItemSerializer)
 
 
 class BucketlistViewSet(viewsets.ModelViewSet):

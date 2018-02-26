@@ -15,7 +15,7 @@ import environ
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = environ.Path(__file__) - 3
-APPS_DIR = ROOT_DIR.path('project')
+APPS_DIR = ROOT_DIR.path('projects')
 
 env = environ.Env()
 # This section added from an update to standards in CookieCutter Django to ensure no errors are encountered at runserver/migrations
@@ -53,7 +53,7 @@ THIRD_PARTY_APPS = (
 )
 
 LOCAL_APPS = (
-    'project.api',
+    'projects.api',
 )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

@@ -9,8 +9,8 @@ class BucketlistSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Bucketlist
-        fields = ('url', 'pk', 'name', 'date_created',
-                  'date_modified', 'items')
+        fields = ('url', 'pk', 'name',
+                  'date_created', 'date_modified', 'items')
 
 
 class BucketlistItemSerializer(serializers.HyperlinkedModelSerializer):
@@ -20,5 +20,6 @@ class BucketlistItemSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = BucketlistItem
         depth = 4
-        fields = ('url', 'pk', 'name', 'bucketlist_id', 'date_created',
+        fields = ('url', 'pk', 'name',
+                  'bucketlist_id', 'date_created',
                   'date_modified')
