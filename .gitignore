@@ -1,4 +1,6 @@
 .env
+.DS_Store
+*.pyc
 migrations
-config/__pycache__/
+__pycache__/
 db.sqlite3
