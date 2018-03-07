@@ -1,20 +1,21 @@
 # Create your views here.
-from rest_framework import viewsets
-from django.shortcuts import get_object_or_404
-from rest_framework.response import Response
 from django.http import Http404
+from django.shortcuts import get_object_or_404
+
+from rest_framework import viewsets
+from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.renderers import HTMLFormRenderer, JSONRenderer, BrowsableAPIRenderer
+from rest_framework.renderers import (HTMLFormRenderer,
+                                      JSONRenderer, BrowsableAPIRenderer)
 
 
 from project.api.models import BucketlistsModel, BucketlistItemsModel
-from project.api.serializers import BucketlistSerializer, BucketlistItemSerializer
+from project.api.serializers import (BucketlistSerializer,
+                                     BucketlistItemSerializer)
 
 
 class BucketlistViewSet(viewsets.ViewSet):
-    """
-    A simple ViewSet for listing or retrieving users.
-    """
+
     serializer_class = BucketlistSerializer
     renderer_classes = (BrowsableAPIRenderer, JSONRenderer, HTMLFormRenderer)
 
@@ -41,9 +42,6 @@ class BucketlistViewSet(viewsets.ViewSet):
 
 
 class ItemsViewSet(viewsets.ViewSet):
-    """
-    A simple ViewSet for listing or retrieving users.
-    """
 
     serializer_class = BucketlistItemSerializer
     renderer_classes = (BrowsableAPIRenderer, JSONRenderer, HTMLFormRenderer)
