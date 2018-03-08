@@ -20,14 +20,14 @@ class BucketlistViewSet(viewsets.ViewSet):
     renderer_classes = (BrowsableAPIRenderer, JSONRenderer, HTMLFormRenderer)
 
     def list(self, request):
-        queryset = BucketlistsModel.objects.all()
+        bucketlist = BucketlistsModel.objects.all()
         serializer = BucketlistSerializer(
-            queryset, context={'request': request}, many=True)
+            bucketlist, context={'request': request}, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
-        queryset = BucketlistsModel.objects.all()
-        bucketlist = get_object_or_404(queryset, pk=pk)
+        bucketlists = BucketlistsModel.objects.all()
+        bucketlist = get_object_or_404(bucketlists, pk=pk)
         serializer = BucketlistSerializer(
             bucketlist, context={'request': request})
         return Response(serializer.data)
@@ -40,6 +40,18 @@ class BucketlistViewSet(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def update(self, request, pk, format=None):
+        bucketlist = BucketlistsModel.objects.get(pk=pk)
+        serializer = BucketlistSerializer(bucketlist,
+                                          context={'request': request},
+                                          data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.error, status=status.HTTP_404_NOT_FOUND)
+
 
 class ItemsViewSet(viewsets.ViewSet):
 
@@ -47,16 +59,16 @@ class ItemsViewSet(viewsets.ViewSet):
     renderer_classes = (BrowsableAPIRenderer, JSONRenderer, HTMLFormRenderer)
 
     def list(self, request):
-        queryset = BucketlistItemsModel.objects.all()
+        item = BucketlistItemsModel.objects.all()
         serializer = BucketlistItemSerializer(
-            queryset, context={'request': request}, many=True)
+            item, context={'request': request}, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
-        queryset = BucketlistItemsModel.objects.all()
-        bucketlist = get_object_or_404(queryset, pk=pk)
+        items = BucketlistItemsModel.objects.all()
+        item = get_object_or_404(items, pk=pk)
         serializer = BucketlistItemSerializer(
-            bucketlist, context={'request': request})
+            item, context={'request': request})
         return Response(serializer.data)
 
     def create(self, request):
