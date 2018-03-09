@@ -40,7 +40,7 @@ class BucketlistViewSet(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def update(self, request, pk, format=None):
+    def partial_update(self, request, pk, format=None):
         bucketlist = BucketlistsModel.objects.get(pk=pk)
         serializer = BucketlistSerializer(bucketlist,
                                           context={'request': request},
