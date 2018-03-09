@@ -16,7 +16,7 @@ class BucketlistsModel(models.Model):
 
 class BucketlistItemsModel(models.Model):
     name = models.CharField(max_length=255, unique=True, blank=False)
-    bucketlist_id = models.ForeignKey(
+    bucketlist_pk = models.ForeignKey(
         BucketlistsModel, related_name='items', on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)

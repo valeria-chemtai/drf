@@ -14,12 +14,12 @@ class BucketlistSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class BucketlistItemSerializer(serializers.HyperlinkedModelSerializer):
-    bucketlist_id = serializers.SlugRelatedField(
+    bucketlist_pk = serializers.SlugRelatedField(
         queryset=BucketlistsModel.objects.all(), slug_field='pk')
 
     class Meta:
         model = BucketlistItemsModel
         depth = 4
         fields = ('url', 'pk', 'name',
-                  'bucketlist_id', 'date_created',
+                  'bucketlist_pk', 'date_created',
                   'date_modified')

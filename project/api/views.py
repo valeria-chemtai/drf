@@ -20,13 +20,13 @@ class BucketlistViewSet(viewsets.ViewSet):
     renderer_classes = (BrowsableAPIRenderer, JSONRenderer, HTMLFormRenderer)
 
     def list(self, request):
-        bucketlist = BucketlistsModel.objects.all()
+        bucketlist = BucketlistsModel.objects.filter()
         serializer = BucketlistSerializer(
             bucketlist, context={'request': request}, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
-        bucketlists = BucketlistsModel.objects.all()
+        bucketlists = BucketlistsModel.objects.filter()
         bucketlist = get_object_or_404(bucketlists, pk=pk)
         serializer = BucketlistSerializer(
             bucketlist, context={'request': request})
@@ -58,20 +58,21 @@ class ItemsViewSet(viewsets.ViewSet):
     serializer_class = BucketlistItemSerializer
     renderer_classes = (BrowsableAPIRenderer, JSONRenderer, HTMLFormRenderer)
 
-    def list(self, request):
-        item = BucketlistItemsModel.objects.all()
+    def list(self, request, bucketlist_pk=None):
+        item = BucketlistItemsModel.objects.filter(bucketlist_pk=bucketlist_pk)
         serializer = BucketlistItemSerializer(
             item, context={'request': request}, many=True)
         return Response(serializer.data)
 
-    def retrieve(self, request, pk=None):
-        items = BucketlistItemsModel.objects.all()
+    def retrieve(self, request, pk=None, bucketlist_pk=None):
+        items = BucketlistItemsModel.objects.filter(
+            bucketlist_pk=bucketlist_pk)
         item = get_object_or_404(items, pk=pk)
         serializer = BucketlistItemSerializer(
             item, context={'request': request})
         return Response(serializer.data)
 
-    def create(self, request):
+    def create(self, request, bucketlist_pk=None):
         serializer = BucketlistItemSerializer(data=request.data,
                                               context={'request': request})
         if serializer.is_valid():
