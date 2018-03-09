@@ -1,11 +1,17 @@
 from rest_framework import serializers
 
+from rest_framework_nested.relations import NestedHyperlinkedRelatedField
+
 from project.api.models import BucketlistsModel, BucketlistItemsModel
 
 
 class BucketlistSerializer(serializers.HyperlinkedModelSerializer):
-    items = serializers.HyperlinkedRelatedField(
-        many=True, read_only=True, view_name='bucketlistitemsmodel-detail')
+    items = NestedHyperlinkedRelatedField(
+        many=True,
+        read_only=True,   # Or add a queryset
+        view_name='bucketlistitemsmodel-detail',
+        parent_lookup_kwargs={'bucketlist_pk': 'bucketlist_pk__pk'}
+    )
 
     class Meta:
         model = BucketlistsModel

@@ -8,12 +8,10 @@ from project.api.views import BucketlistViewSet, ItemsViewSet
 
 bucketlist_list = BucketlistViewSet.as_view({'get': 'list',
                                              'post': 'create'})
-bucketlist_detail = BucketlistViewSet.as_view({'get': 'retrieve',
-                                               'post': 'create'})
+bucketlist_detail = BucketlistViewSet.as_view({'get': 'retrieve'})
 item_list = ItemsViewSet.as_view({'get': 'list',
                                   'post': 'create'})
-item_detail = ItemsViewSet.as_view({'get': 'retrieve',
-                                    'post': 'create'})
+item_detail = ItemsViewSet.as_view({'get': 'retrieve'})
 
 router = routers.DefaultRouter()
 
