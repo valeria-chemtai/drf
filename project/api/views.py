@@ -1,5 +1,4 @@
 # Create your views here.
-from django.http import Http404
 from django.shortcuts import get_object_or_404
 
 from rest_framework import viewsets
@@ -9,9 +8,8 @@ from rest_framework.renderers import (HTMLFormRenderer,
                                       JSONRenderer, BrowsableAPIRenderer)
 
 
-from project.api.models import BucketlistsModel, BucketlistItemsModel
-from project.api.serializers import (BucketlistSerializer,
-                                     BucketlistItemSerializer)
+from project.api.models import Bucketlist, Item
+from project.api.serializers import BucketlistSerializer, ItemSerializer
 
 
 class BucketlistViewSet(viewsets.ViewSet):
@@ -20,14 +18,14 @@ class BucketlistViewSet(viewsets.ViewSet):
     renderer_classes = (BrowsableAPIRenderer, JSONRenderer, HTMLFormRenderer)
 
     def list(self, request):
-        bucketlist = BucketlistsModel.objects.filter()
+        queryset = Bucketlist.objects.filter()
         serializer = BucketlistSerializer(
-            bucketlist, context={'request': request}, many=True)
+            queryset, context={'request': request}, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
-        bucketlists = BucketlistsModel.objects.filter()
-        bucketlist = get_object_or_404(bucketlists, pk=pk)
+        queryset = Bucketlist.objects.filter()
+        bucketlist = get_object_or_404(queryset, pk=pk)
         serializer = BucketlistSerializer(
             bucketlist, context={'request': request})
         return Response(serializer.data)
@@ -41,8 +39,8 @@ class BucketlistViewSet(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def partial_update(self, request, pk, format=None):
-        bucketlist = BucketlistsModel.objects.get(pk=pk)
-        serializer = BucketlistSerializer(bucketlist,
+        queryset = Bucketlist.objects.get(pk=pk)
+        serializer = BucketlistSerializer(queryset,
                                           context={'request': request},
                                           data=request.data, partial=True)
         if serializer.is_valid():
@@ -53,28 +51,28 @@ class BucketlistViewSet(viewsets.ViewSet):
         return Response(serializer.error, status=status.HTTP_404_NOT_FOUND)
 
 
-class ItemsViewSet(viewsets.ViewSet):
+class ItemViewSet(viewsets.ViewSet):
 
-    serializer_class = BucketlistItemSerializer
+    serializer_class = ItemSerializer
     renderer_classes = (BrowsableAPIRenderer, JSONRenderer, HTMLFormRenderer)
 
     def list(self, request, bucketlist_pk=None):
-        item = BucketlistItemsModel.objects.filter(bucketlist_pk=bucketlist_pk)
-        serializer = BucketlistItemSerializer(
-            item, context={'request': request}, many=True)
+        queryset = Item.objects.filter(bucketlist_pk=bucketlist_pk)
+        serializer = ItemSerializer(
+            queryset, context={'request': request}, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None, bucketlist_pk=None):
-        items = BucketlistItemsModel.objects.filter(
+        queryset = Item.objects.filter(
             bucketlist_pk=bucketlist_pk)
-        item = get_object_or_404(items, pk=pk)
-        serializer = BucketlistItemSerializer(
+        item = get_object_or_404(queryset, pk=pk)
+        serializer = ItemSerializer(
             item, context={'request': request})
         return Response(serializer.data)
 
     def create(self, request, bucketlist_pk=None):
-        serializer = BucketlistItemSerializer(data=request.data,
-                                              context={'request': request})
+        serializer = ItemSerializer(data=request.data,
+                                    context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

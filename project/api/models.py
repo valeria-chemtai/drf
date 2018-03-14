@@ -1,9 +1,9 @@
 from django.db import models
 
 
-class BucketlistsModel(models.Model):
+class Bucketlist(models.Model):
     name = models.CharField(max_length=255, unique=True, blank=False)
-    intersting = models.CharField(max_length=255, blank=True)
+    interesting = models.CharField(max_length=255, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
@@ -14,10 +14,10 @@ class BucketlistsModel(models.Model):
         return self.name
 
 
-class BucketlistItemsModel(models.Model):
+class Item(models.Model):
     name = models.CharField(max_length=255, unique=True, blank=False)
     bucketlist_pk = models.ForeignKey(
-        BucketlistsModel, related_name='items', on_delete=models.CASCADE)
+        Bucketlist, related_name='items', on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
