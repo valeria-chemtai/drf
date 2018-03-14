@@ -19,7 +19,7 @@ class BucketlistSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Bucketlist
-        fields = ('url', 'pk', 'name', 'intersting',
+        fields = ('url', 'pk', 'name', 'interesting',
                   'date_created', 'date_modified', 'items')
 
 
